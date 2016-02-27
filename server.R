@@ -1,6 +1,6 @@
 library(shiny)
 library(plotrix)
-library(sp)
+
 shinyServer(
   function(input, output) {
     output$circle <- renderPrint({input$circle})
