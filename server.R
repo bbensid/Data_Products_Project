@@ -6,9 +6,12 @@ shinyServer(
     output$circle <- renderPrint({input$circle})
     output$line <- renderPrint({input$line})
     plotInput <- reactive({
+        ##pdf() for the pdf output
         pdf(file="plot.pdf",paper="special", width=11.69,height=8.27)
+        ##setting the common parameters for the pdf saving and the preview
         typelist <- c(rep("circle", input$circle),rep("line",input$line))
         seeds <- sample(1:100,12)
+        ##create the plot for the pdf saving
         par(mar = rep(0,4))
         plot(1, type="n", axes=FALSE, 
              xlab="", ylab="",
@@ -40,7 +43,9 @@ shinyServer(
                 }
             } 
         }
+        ##need to dev.off 
         dev.off()
+        ##recreate the plot for the preview
         par(mar = rep(0,4))
         plot(1, type="n", axes=FALSE, 
              xlab="", ylab="",
@@ -73,7 +78,9 @@ shinyServer(
             }
         }
     })
+##run the preview
 output$newPlot <- renderPlot({plotInput() })
+##creates the pdf
 output$pdflink <- downloadHandler(
     filename <- "NiceGeometricalColoringFrame.pdf",
     content <- function(file) {
