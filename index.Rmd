@@ -1,0 +1,205 @@
+---
+title       : An App for goemetrical coloring pages
+subtitle    : Create and download nice simple-to-very-complex coloring frames
+author      : bbensid
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Introduction
+
+- Coloring books are very common for education purposes. As a non-verbal medium they can easily go beyond linguistical barriers. But they can also attract the attention of children to concepts that they won't be interested in otherwise, like geometry.
+
+- [Roger Burrow](https://en.wikipedia.org/wiki/Roger_Burrows) is one of the first to have published a coloring book exclusively dedicated to complex geometrical forms, ["Images: The Ultimate Coloring Experience"](https://www.google.ch/search?q=Images:+The+Ultimate+Coloring+Experience&safe=off&tbm=isch&tbo=u&source=univ&sa=X&ved=0ahUKEwjripbXiZrLAhUL1RoKHWRRBWEQsAQIOA&biw=1123&bih=571).
+
+- This application is enabling you to create an original geometrical coloring page (called "frame"), to save it as PDF and download it on your computer, ready to be printed for you and your children to enjoy coloring it in a variety of colors or just in black and white.
+
+--- .class #id 
+
+## Creating the frame and preview
+
+- The coloring frame creation is based on two basic forms:
+    - The line-based form
+    - The circle-based form
+- The line-based form is a set of 36 lines, all crossing at the same randomely selected focal point and separated by the same angle of 10°.
+- The circle-based form is a set of 200 concentric circles, which center is also randomely selected, with a radius growing by 0.5.
+- The App user can choose how many line or circle-based forms he or she wishes to see on the coloring frame, and the algorithm will randomely select as many focal points and build the relevant forms from them.
+
+--- .class #id 
+
+## Example of frames
+
+- The final frame could be very simple, with only one line or circle-based form :
+
+```{r,  fig.width=8, fig.height=3, echo = FALSE}
+library(plotrix)
+
+
+circle <-0
+line <- 1
+
+typelist <- c(rep("circle", circle),rep("line",line))
+seeds <- sample(1:100,12)
+par(mfrow= c(1,2), mar = rep(0,4))
+plot(1, type="n", axes=FALSE, 
+     xlab="", ylab="",
+     xlim = c(-10,10), ylim=c(-10,10),
+     frame.plot=FALSE,
+     bty = "n")
+
+for (p in 1:length(typelist)) {
+    if (typelist[p] == "circle") {
+        set.seed(seeds[p])
+        x <-sample(-10:10,2)
+        for (i in seq(0.5,100,0.5)) {
+            draw.circle(x[1],x[2],i,nv=100,border=NULL,
+                        col=NA,lty=1,lwd=0.5) 
+        }
+    } else {
+        set.seed(seeds[p])
+        x<-sample(-10:10,2)
+        nv <- 36
+        angle.inc <- 2 * pi/nv
+        angles <- seq(0, 2 * pi - angle.inc, by = angle.inc)
+        for (l in 1:nv) {
+            if (cos(angles[l])==0) {abline(v=x,lty=1,lwd=0.5)
+            }else {
+                bb<- sin(angles[l])/cos(angles[l])
+                aa <- x[2]-x[1]*bb
+                abline(a=aa,b=bb,lty=1,lwd=0.5)
+            }
+        }
+    } 
+}
+
+circle <-1
+line <- 0
+typelist <- c(rep("circle", circle),rep("line",line))
+
+plot(1, type="n", axes=FALSE, 
+     xlab="", ylab="",
+     xlim = c(-10,10), ylim=c(-10,10),
+     frame.plot=FALSE,
+     bty = "n")
+
+for (p in 1:length(typelist)) {
+    if (typelist[p] == "circle") {
+        set.seed(seeds[p])
+        x <-sample(-10:10,2)
+        for (i in seq(0.5,100,0.5)) {
+            draw.circle(x[1],x[2],i,nv=100,border=NULL,
+                        col=NA,lty=1,lwd=0.5) 
+        }
+    } else {
+        set.seed(seeds[p])
+        x<-sample(-10:10,2)
+        nv <- 36
+        angle.inc <- 2 * pi/nv
+        angles <- seq(0, 2 * pi - angle.inc, by = angle.inc)
+        for (l in 1:nv) {
+            if (cos(angles[l])==0) {abline(v=x,lty=1,lwd=0.5)
+            }else {
+                bb<- sin(angles[l])/cos(angles[l])
+                aa <- x[2]-x[1]*bb
+                abline(a=aa,b=bb,lty=1,lwd=0.5)
+            }
+        }
+    } 
+}
+```
+
+- To very complex lace-like frames like here :
+
+```{r, fig.width=8, fig.height=3, echo = FALSE}
+library(plotrix)
+
+
+circle <-4
+line <- 2
+
+typelist <- c(rep("circle", circle),rep("line",line))
+seeds <- sample(1:100,12)
+par(mfrow= c(1,2), mar = rep(0,4))
+plot(1, type="n", axes=FALSE, 
+     xlab="", ylab="",
+     xlim = c(-10,10), ylim=c(-10,10),
+     frame.plot=FALSE,
+     bty = "n")
+
+for (p in 1:length(typelist)) {
+    if (typelist[p] == "circle") {
+        set.seed(seeds[p])
+        x <-sample(-10:10,2)
+        for (i in seq(0.5,100,0.5)) {
+            draw.circle(x[1],x[2],i,nv=100,border=NULL,
+                        col=NA,lty=1,lwd=0.5) 
+        }
+    } else {
+        set.seed(seeds[p])
+        x<-sample(-10:10,2)
+        nv <- 36
+        angle.inc <- 2 * pi/nv
+        angles <- seq(0, 2 * pi - angle.inc, by = angle.inc)
+        for (l in 1:nv) {
+            if (cos(angles[l])==0) {abline(v=x,lty=1,lwd=0.5)
+            }else {
+                bb<- sin(angles[l])/cos(angles[l])
+                aa <- x[2]-x[1]*bb
+                abline(a=aa,b=bb,lty=1,lwd=0.5)
+            }
+        }
+    } 
+}
+
+circle <-6
+line <- 6
+typelist <- c(rep("circle", circle),rep("line",line))
+
+plot(1, type="n", axes=FALSE, 
+     xlab="", ylab="",
+     xlim = c(-10,10), ylim=c(-10,10),
+     frame.plot=FALSE,
+     bty = "n")
+
+for (p in 1:length(typelist)) {
+    if (typelist[p] == "circle") {
+        set.seed(seeds[p])
+        x <-sample(-10:10,2)
+        for (i in seq(0.5,100,0.5)) {
+            draw.circle(x[1],x[2],i,nv=100,border=NULL,
+                        col=NA,lty=1,lwd=0.5) 
+        }
+    } else {
+        set.seed(seeds[p])
+        x<-sample(-10:10,2)
+        nv <- 36
+        angle.inc <- 2 * pi/nv
+        angles <- seq(0, 2 * pi - angle.inc, by = angle.inc)
+        for (l in 1:nv) {
+            if (cos(angles[l])==0) {abline(v=x,lty=1,lwd=0.5)
+            }else {
+                bb<- sin(angles[l])/cos(angles[l])
+                aa <- x[2]-x[1]*bb
+                abline(a=aa,b=bb,lty=1,lwd=0.5)
+            }
+        }
+    } 
+}
+```
+
+
+--- .class #id 
+
+## The final output and conclusion
+
+- The nice feature of this application is that you can directly download a pre-formatted PDF file with the coloring frame you have just created.
+- The PDF is formatted such as there is no margins, so you can directly print it and enjoy starting cloring it.
+
+- In conclusion, this relatively simple application allows you to simply create original geometrical coloring frames and download them as pre-formatted PDF files to be readly printed and enjoyed.
+
+
